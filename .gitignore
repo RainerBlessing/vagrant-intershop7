@@ -1,0 +1,3 @@
+modules/intershop/files/*.deb
+modules/intershop/files/optional/*.deb
+modules/oracle/files/*.zip
