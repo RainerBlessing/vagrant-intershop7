@@ -221,13 +221,13 @@ class intershop::postinstall {
     "${is_share}/system/license/license.xml":
       require => File["${is_share}/system/license"],
       source => "puppet:///modules/intershop/license.xml";
-    "${is_etc}/postinstall.properties":
+    "${is_etc}/postinstall.properties.vm":
       source => "puppet:///modules/intershop/postinstall.properties";
   }
 
   exec{
     "postinstall.pl":
-      require => File["${is_etc}/postinstall.properties"],
-              command => "${is_home}/bin/postinstall.pl",
+      require => File["${is_etc}/postinstall.properties.vm"],
+              command => "${is_home}/bin/postinstall.pl ${is_etc}/postinstall.properties.vm",
   }
 }
