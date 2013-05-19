@@ -2,5 +2,6 @@
 *.swp
 modules/intershop/files/*.deb
 modules/intershop/files/*.jar
+modules/intershop/files/license.xml
 modules/intershop/files/optional/*.deb
 modules/oracle/files/*.zip

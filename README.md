@@ -18,6 +18,7 @@ It is important that the jars version matches the database version. If in doubt 
 * Run rpmconv.sh to create the rpms for ES1.
 * Convert the rpms to debs with "alien --scripts *.rpm".
 * Copy all debs to files and the etest files from the optional files.
+* Copy the license.xml file to the files folder.
 
 ### dependencies for libapr1 1.4 (not in precise) 
 Copy these packages from quantal to files
@@ -29,7 +30,8 @@ Copy these packages from quantal to files
 Install vagrant with
 * gem install vagrant
 * gem install vagrant-vbguest
-You also need Ruby for that.
+
+You also need Ruby and VirtualBox.
 
 ## Setup
 To create the vm run "vagrant up" inside the directory. Connect to the VM with "vagrant ssh".
@@ -39,7 +41,5 @@ To create the vm run "vagrant up" inside the directory. Connect to the VM with "
 * The Intershop packages are installed, also the users are created.
 
 ## TODO
-* Installing license.xml
-* Running postinstallation script
 * Changing owner and access rights
 * Starting services

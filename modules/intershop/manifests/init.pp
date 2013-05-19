@@ -200,23 +200,34 @@ class intershop::optional {
   }
 }
 
-class intershop::postinstall{
-  $IS_SHARE="/eserver1/share"
-  File{
-    require => Class["intershop::base"],
+class intershop::postinstall {
+  $is_home="/eserver1"
+  $is_share="${is_home}/share"
+  $is_etc="/etc/opt/intershop/eserver1"
+
+  File {
+      mode => 0600,
+      owner => isas1,
+      require => Package["intershop-base"],
   }
 
   file {
-    "${IS_SHARE}/system/cartridges/tools/release/lib/ojdbc6.jar":
-      mode => 0600,
-      owner => isas1,
+    "${is_share}/system/cartridges/tools/release/lib/ojdbc6.jar":
       source => "puppet:///modules/intershop/ojdbc6.jar";
-  "${IS_SHARE}/system/cartridges/tools/release/lib/ucp.jar":
-      mode => 0600,
-      owner => isas1,
+    "${is_share}/system/cartridges/tools/release/lib/ucp.jar":
       source => "puppet:///modules/intershop/ucp.jar";
-  "${IS_SHARE}/system/config/servers/127.0.0.1":
-      owner => isas1,
-      ensure => present;
+    "${is_share}/system/license":
+      ensure => directory;
+    "${is_share}/system/license/license.xml":
+      require => File["${is_share}/system/license"],
+      source => "puppet:///modules/intershop/license.xml";
+    "${is_etc}/postinstall.properties":
+      source => "puppet:///modules/intershop/postinstall.properties";
+  }
+
+  exec{
+    "postinstall.pl":
+      require => File["${is_etc}/postinstall.properties"],
+              command => "${is_home}/bin/postinstall.pl",
   }
 }
