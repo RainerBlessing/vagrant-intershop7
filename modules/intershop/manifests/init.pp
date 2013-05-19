@@ -23,7 +23,7 @@ class intershop::base {
   }
 
   #$apt_get = ["libaprutil1-dbd-odbc","libssl0.9.8","libasound2","libxi6","libxrender1","libxtst6","libc6-i386"]
-  $apt_get = ["unixodbc","libssl0.9.8","libasound2","libxi6","libxrender1","libxtst6","libc6-i386"]
+  $apt_get = ["libssl0.9.8","libasound2","libxi6","libxrender1","libxtst6","libc6-i386"]
   package {
       $apt_get:
       require => Exec["apt-update"],
@@ -197,5 +197,26 @@ class intershop::optional {
         provider => "dpkg",
         ensure => latest,
         source => $intershop_optional_source;
+  }
+}
+
+class intershop::postinstall{
+  $IS_SHARE="/eserver1/share"
+  File{
+    require => Class["intershop::base"],
+  }
+
+  file {
+    "${IS_SHARE}/system/cartridges/tools/release/lib/ojdbc6.jar":
+      mode => 0600,
+      owner => isas1,
+      source => "puppet:///modules/intershop/ojdbc6.jar";
+  "${IS_SHARE}/system/cartridges/tools/release/lib/ucp.jar":
+      mode => 0600,
+      owner => isas1,
+      source => "puppet:///modules/intershop/ucp.jar";
+  "${IS_SHARE}/system/config/servers/127.0.0.1":
+      owner => isas1,
+      ensure => present;
   }
 }

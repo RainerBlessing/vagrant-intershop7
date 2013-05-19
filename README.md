@@ -39,7 +39,6 @@ To create the vm run "vagrant up" inside the directory. Connect to the VM with "
 * The Intershop packages are installed, also the users are created.
 
 ## TODO
-* Copy ojdbc6.jar and ucp.jar to application server.
 * Installing license.xml
 * Running postinstallation script
 * Changing owner and access rights
