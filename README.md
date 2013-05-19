@@ -1,4 +1,4 @@
-#Vagrant/Puppet Template for in Intershop 7 VM
+#Vagrant/Puppet Template for an Intershop 7 VM
 This template will install a vm with
 * Ubuntu 12.04
 * Oracle XE 11g
