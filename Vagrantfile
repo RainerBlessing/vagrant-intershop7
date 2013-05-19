@@ -6,8 +6,9 @@ Vagrant::Config.run do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
+  #config.vm.box = "raring64_2"
   config.vm.box = "precise64"
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  config.vm.box_url = "http://cloud-images.ubuntu.com/raring/current/raring-server-cloudimg-vagrant-amd64-disk1.box"
   config.vm.host_name = "intershop72"
 
   # Forward Oracle port
@@ -20,7 +21,9 @@ Vagrant::Config.run do |config|
                   # Oracle claims to need 512MB of memory available minimum
                   "--memory", "2048",
                   # Enable DNS behind NAT
-                  "--natdnshostresolver1", "on"]
+                  "--natdnshostresolver1", "on",
+                  "--rtcuseutc", "on"
+]
 
   config.vm.provision :shell, :inline => "echo \"Europe/Berlin\" | sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
 

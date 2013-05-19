@@ -1,10 +1,5 @@
 class oracle::server {
 
-  exec { "apt-update":
-      command => "/usr/bin/apt-get -y update",
-      timeout => 3600;
-  }
-
   package {
     ["alien", "bc", "libaio1", "unixodbc", "unzip"]:
       ensure => installed;
@@ -137,5 +132,14 @@ class oracle::xe {
   	"oracle-xe":
   	  ensure => "running",
   	  require => [Package["oracle-xe"], Exec["configure xe"]],
+  }
+}
+
+class oracle::intershop{
+  exec {
+    "create user and tablespace":
+      command => "/tmp/vagrant-puppet/modules-0/oracle/files/intershop_db_setup.sh",
+      require => Service["oracle-xe"],
+      environment => ["ORACLE_SID=XE","ORACLE_BASE=/u01/app/oracle","ORACLE_HOME=/u01/app/oracle/product/11.2.0/xe"]
   }
 }
