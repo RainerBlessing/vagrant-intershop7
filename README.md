@@ -37,9 +37,14 @@ You also need Ruby and VirtualBox.
 To create the vm run "vagrant up" inside the directory. Connect to the VM with "vagrant ssh".
 
 ## Status
-* The Oracle XE installation is done. A user called intershop is created with all required tablespaces.
-* The Intershop packages are installed, also the users are created.
+* An DB user intershop/intershop is created.
+* The DB is automatically started.
+* The AS with all base cartriges gets installed.
+* The templates are precompiled.
 
-## TODO
-* Changing owner and access rights
-* Starting services
+## What you need to do
+* Change owner and access rights (install.txt in Intershop Studio)
+* Set IS_SOURCE and IS_TARGET
+* Run dbinit/import dump
+* Start AS and Webserver/WA
+

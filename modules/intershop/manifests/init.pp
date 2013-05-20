@@ -31,7 +31,7 @@ class intershop::base {
   }
 
   $intershop_version="7.2.1.0-137"
-  $package_dir="/tmp/vagrant-puppet/modules-0/intershop/files"
+  $package_dir="/tmp/vagrant-puppet/modules-0/intershop/files/deb"
 
   $intershop_base_source = [
   "${package_dir}/libapr1_1.4.6-3_amd64.deb",
@@ -171,7 +171,7 @@ class intershop::base {
       source => $intershop_base_source;
   }
 
-  $dpkg_force_overwrite = "/usr/bin/dpkg -i --force-overwrite"
+  $dpkg_force_overwrite = "/usr/bin/dpkg -i --force-confdef --force-overwrite"
 
   #exec can not handle arrays, fixed in puppet 3.2.0
   #$packages_with_duplicates = [
@@ -201,7 +201,7 @@ class intershop::base {
 class intershop::optional {
 
   $intershop_version="7.2.1.0-137"
-  $package_dir="/tmp/vagrant-puppet/modules-0/intershop/files/optional"
+  $package_dir="/tmp/vagrant-puppet/modules-0/intershop/files/deb/optional"
 
   $intershop_optional_source = [
   "${package_dir}/intershop-es1-doc-etest-doc_${intershop_version}_amd64.deb",
@@ -217,7 +217,7 @@ class intershop::optional {
   }
 }
 
-class intershop::postinstall {
+class intershop::postinstall {  
   $is_home="/eserver1"
   $is_share="${is_home}/share"
   $is_etc="/etc/opt/intershop/eserver1"
@@ -240,12 +240,32 @@ class intershop::postinstall {
       source => "puppet:///modules/intershop/license.xml";
     "${is_etc}/postinstall.properties.vm":
       source => "puppet:///modules/intershop/postinstall.properties";
+    "${is_share}/system/cartridges/cartridgelist.properties":
+      source => "puppet:///modules/intershop/cartridgelist.properties";
+    "${is_share}/sites":
+      ensure => directory;
+    "${is_share}/system/config/servers":
+      ensure => directory;
+    "${is_share}/system/config/servers/127.0.1.1":
+      require => File["${is_share}/system/config/servers"],
+      ensure => directory;
+    "${is_share}/system/config/servers/127.0.1.1/ES1":
+      require => File["${is_share}/system/config/servers/127.0.1.1"],
+      ensure => directory;
   }
 
   exec{
     "postinstall.pl":
-      require => File["${is_etc}/postinstall.properties.vm"],
+      require => [File["${is_etc}/postinstall.properties.vm"],File["${is_share}/system/config/servers/127.0.1.1/ES1"]],
               command => "${is_home}/bin/postinstall.pl ${is_etc}/postinstall.properties.vm",
               creates => "/var/opt/intershop/eserver1/log/postinstall.log",
+  }
+
+  exec{
+    "ant precompile":
+      require => [Exec["postinstall.pl"], File["${is_share}/sites"]],
+              command => "${is_home}/tools/ant/bin/ant -f ${is_home}/tools/misc/build.xml precompile",
+              creates => "/eserver1/share/system/cartridges/xcs/release/pagecompile",
+      timeout => 600;
   }
 }
