@@ -135,11 +135,19 @@ class oracle::xe {
   }
 }
 
+  
 class oracle::intershop{
+  $tablespace_files =[ "/u01/app/oracle/oradata/XE/is_users.dbf",
+    "/u01/app/oracle/oradata/XE/is_temp.dbf",
+    "/u01/app/oracle/oradata/XE/is_indx.dbf",
+    "/u01/app/oracle/oradata/XE/is_indx_ctx.dbf",
+  ]
+
   exec {
     "create user and tablespace":
       command => "/tmp/vagrant-puppet/modules-0/oracle/files/intershop_db_setup.sh",
       require => Service["oracle-xe"],
-      environment => ["ORACLE_SID=XE","ORACLE_BASE=/u01/app/oracle","ORACLE_HOME=/u01/app/oracle/product/11.2.0/xe"]
+      environment => ["ORACLE_SID=XE","ORACLE_BASE=/u01/app/oracle","ORACLE_HOME=/u01/app/oracle/product/11.2.0/xe"],
+      creates => $tablespace_files,
   }
 }

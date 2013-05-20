@@ -9,7 +9,7 @@ $ORACLE_HOME/bin/sqlplus system/intershop <<EOF
 create user intershop identified by intershop;
 grant all privileges to intershop;
 create tablespace is_users datafile '/u01/app/oracle/oradata/XE/is_users.dbf' size 1G autoextend on;
-create tablespace is_temp datafile '/u01/app/oracle/oradata/XE/is_temp' size 10m autoextend on;
+create tablespace is_temp datafile '/u01/app/oracle/oradata/XE/is_temp.dbf' size 10m autoextend on;
 create tablespace is_indx datafile '/u01/app/oracle/oradata/XE/is_indx.dbf' size 10m autoextend on;
 create tablespace is_indx_ctx datafile '/u01/app/oracle/oradata/XE/is_indx_ctx.dbf' size 10m autoextend on;
 EOF

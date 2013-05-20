@@ -84,7 +84,6 @@ class intershop::base {
     "${package_dir}/intershop-es1-sfs-bc-i18n-share_${intershop_version}_amd64.deb",
     "${package_dir}/intershop-es1-sfs-bc-image-share_${intershop_version}_amd64.deb",
     "${package_dir}/intershop-es1-sfs-bc-mail-share_${intershop_version}_amd64.deb",
-    "${package_dir}/intershop-es1-sfs-bc-marketing-share_${intershop_version}_amd64.deb",
     "${package_dir}/intershop-es1-sfs-bc-mvc-share_${intershop_version}_amd64.deb",
     "${package_dir}/intershop-es1-sfs-bc-order-impex-share_${intershop_version}_amd64.deb",
     "${package_dir}/intershop-es1-sfs-bc-order-share_${intershop_version}_amd64.deb",
@@ -131,7 +130,6 @@ class intershop::base {
     "${package_dir}/intershop-es1-sfs-messaging-share_${intershop_version}_amd64.deb",
     "${package_dir}/intershop-es1-sfs-migration-share_${intershop_version}_amd64.deb",
     "${package_dir}/intershop-es1-sfs-monitor-share_${intershop_version}_amd64.deb",
-    "${package_dir}/intershop-es1-sfs-orm-share_${intershop_version}_amd64.deb",
     "${package_dir}/intershop-es1-sfs-pf-cartridge-share_${intershop_version}_amd64.deb",
     "${package_dir}/intershop-es1-sfs-pf-extension-share_${intershop_version}_amd64.deb",
     "${package_dir}/intershop-es1-sfs-pf-objectgraph-guice-share_${intershop_version}_amd64.deb",
@@ -173,10 +171,29 @@ class intershop::base {
       source => $intershop_base_source;
   }
 
+  $dpkg_force_overwrite = "/usr/bin/dpkg -i --force-overwrite"
+
+  #exec can not handle arrays, fixed in puppet 3.2.0
+  #$packages_with_duplicates = [
+  #  "${dpkg_force_overwrite} ${package_dir}/intershop-es1-sfs-bc-marketing-share_${intershop_version}_amd64.deb",
+  #  "${dpkg_force_overwrite} ${package_dir}/intershop-es1-sfs-orm-share_${intershop_version}_amd64.deb",
+  #  "${dpkg_force_overwrite} ${package_dir}/intershop-es1-sfs-core-share_${intershop_version}_amd64.deb",
+  #]
+
   exec{
-       "core":
+       "install_packages_with_duplicates_1":
          require => Package["intershop-base"],
-       command => "/usr/bin/dpkg -i --force-overwrite ${package_dir}/intershop-es1-sfs-core-share_${intershop_version}_amd64.deb";
+       command => "${dpkg_force_overwrite} ${package_dir}/intershop-es1-sfs-bc-marketing-share_${intershop_version}_amd64.deb";
+  }
+  exec{
+       "install_packages_with_duplicates_2":
+         require => Exec["install_packages_with_duplicates_1"],
+       command => "${dpkg_force_overwrite} ${package_dir}/intershop-es1-sfs-orm-share_${intershop_version}_amd64.deb";
+  }
+  exec{
+       "install_packages_with_duplicates_3":
+         require => Exec["install_packages_with_duplicates_2"],
+       command => "${dpkg_force_overwrite} ${package_dir}/intershop-es1-sfs-core-share_${intershop_version}_amd64.deb";
   }
 
 }
@@ -229,5 +246,6 @@ class intershop::postinstall {
     "postinstall.pl":
       require => File["${is_etc}/postinstall.properties.vm"],
               command => "${is_home}/bin/postinstall.pl ${is_etc}/postinstall.properties.vm",
+              creates => "/var/opt/intershop/eserver1/log/postinstall.log",
   }
 }
