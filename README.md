@@ -40,7 +40,8 @@ To create the vm run "vagrant up" inside the directory. Connect to the VM with "
 * The AS with all base cartriges gets installed.
 * The templates are precompiled.
 
-## What you need to do
+## What you need to do / TODO
+* Export IS_HOME directory to host.
 * Change owner and access rights (install.txt in Intershop Studio)
 * Set IS_SOURCE and IS_TARGET
 * Adjust cartridgelist.properties
