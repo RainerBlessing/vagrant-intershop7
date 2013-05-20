@@ -8,17 +8,15 @@ This template will install a vm with
 You need to copy several files to the modules/*/files folder:
 
 ### oracle
-It is important that the jars version matches the database version. If in doubt check the manifest in the jar.
 * oracle-xe-11.2.0-1.0.x86_64.rpm.zip
-* ojdbc6.jar
-* ucp.jar
 
 ### intershop
 * Extract the Intershop iso.
 * Run rpmconv.sh to create the rpms for ES1.
 * Convert the rpms to debs with "alien --scripts *.rpm".
-* Copy all debs to files and the etest files from the optional files.
+* Copy all debs to files/deb and the etest files from the optional files to files/deb/optional.
 * Copy the license.xml file to the files folder.
+* Copy ojdbc6.jar and ucp.jar. It is important that the jars version matches the database version. If in doubt check the manifest in the jar.
 
 ### dependencies for libapr1 1.4 (not in precise) 
 Copy these packages from quantal to files
@@ -45,6 +43,7 @@ To create the vm run "vagrant up" inside the directory. Connect to the VM with "
 ## What you need to do
 * Change owner and access rights (install.txt in Intershop Studio)
 * Set IS_SOURCE and IS_TARGET
+* Adjust cartridgelist.properties
 * Run dbinit/import dump
 * Start AS and Webserver/WA
 
