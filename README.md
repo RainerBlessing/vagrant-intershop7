@@ -47,4 +47,5 @@ To create the vm run "vagrant up" inside the directory. Connect to the VM with "
 * Adjust cartridgelist.properties
 * Run dbinit/import dump
 * Start AS and Webserver/WA
+* To mount the eserver1 directory run mnt_eserver.sh.
 
