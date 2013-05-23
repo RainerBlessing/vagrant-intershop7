@@ -1,5 +1,18 @@
 
-class intershop::base {
+
+
+class intershop::user {
+
+
+  Exec { path => '/bin:/usr/sbin' }
+  define intershop::set_password($user=$title) {
+    $password='$6$ES5FnGUo$oPHLgVH9vT3uZAF0buVMaX4hhoEfQZZi.tswCa/Kf5oSwwwU0ksltf4W/xmRftVDEqw8seey1uydPHgzwCtHW1'
+    exec {
+      "usermod -p '${password}' ${user}":
+        onlyif => "egrep -q '^${user}:!:' /etc/shadow",
+               require => User[$user];
+    }
+  }
 
   User {
       ensure => present,
@@ -16,11 +29,18 @@ class intershop::base {
       uid => 3201;
   }
 
+  
   group {
     "isgrp1":
       gid => 3200,
       ensure => present;
   }
+
+   intershop::set_password{ 'isas1': }
+   intershop::set_password{ 'iswa1': }
+
+}
+class intershop::base {
 
   #$apt_get = ["libaprutil1-dbd-odbc","libssl0.9.8","libasound2","libxi6","libxrender1","libxtst6","libc6-i386"]
   $apt_get = ["libssl0.9.8","libasound2","libxi6","libxrender1","libxtst6","libc6-i386"]
@@ -265,7 +285,7 @@ class intershop::postinstall {
     "ant precompile":
       require => [Exec["postinstall.pl"], File["${is_share}/sites"]],
               command => "${is_home}/tools/ant/bin/ant -f ${is_home}/tools/misc/build.xml precompile",
-              creates => "/eserver1/share/system/cartridges/xcs/release/pagecompile",
-      timeout => 600;
+              creates => "${is_share}/system/cartridges/xcs/release/pagecompile",
+      timeout => 1200;
   }
 }

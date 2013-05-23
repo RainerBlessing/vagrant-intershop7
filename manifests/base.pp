@@ -4,9 +4,11 @@ node intershop72 {
   include oracle::swap
   include oracle::xe
   include oracle::intershop
+  include intershop::user
   include intershop::base
   include intershop::optional
   include intershop::postinstall
+
   user { "vagrant":
     groups => "dba",
     # So that we let Oracle installer create the group
