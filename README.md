@@ -3,6 +3,7 @@ This template will install a vm with
 * Ubuntu 12.04
 * Oracle XE 11g
 * Intershop 7
+* PrimeTech
 
 ## Prerequisites
 You need to copy several files to the modules/*/files folder:
@@ -41,11 +42,8 @@ To create the vm run "vagrant up" inside the directory. Connect to the VM with "
 * The templates are precompiled.
 
 ## What you need to do / TODO
-* Export IS_HOME directory to host.
-* Change owner and access rights (install.txt in Intershop Studio)
 * Set IS_SOURCE and IS_TARGET
-* Adjust cartridgelist.properties
-* Run dbinit/import dump
-* Start AS and Webserver/WA
 * To mount the eserver1 directory run mnt_eserver.sh.
+* If you already have a project you can modify the intershop manifest to prevent the installation of the PrimeTech demo data.
+* To compile the cartridges in the shared folder you have to add vagrant to the isgrp1 and compile the cartridges as the vagrant user.
 

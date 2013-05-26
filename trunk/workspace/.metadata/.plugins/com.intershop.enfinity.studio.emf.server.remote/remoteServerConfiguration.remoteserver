@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ASCII"?>
+<remote:RemoteServerConfigurations xmlns:remote="http://www.intershop.de/remote/2011">
+  <remoteServerConfigurations name="localhost" version="7.2">
+    <connectionProperties port="8000"/>
+    <loginProperties password="!InterShop00!"/>
+  </remoteServerConfigurations>
+</remote:RemoteServerConfigurations>

@@ -8,11 +8,14 @@ Vagrant::Config.run do |config|
 
   #config.vm.box = "raring64_2"
   config.vm.box = "precise64"
-  config.vm.box_url = "http://cloud-images.ubuntu.com/raring/current/raring-server-cloudimg-vagrant-amd64-disk1.box"
+  #config.vm.box_url = "http://cloud-images.ubuntu.com/raring/current/raring-server-cloudimg-vagrant-amd64-disk1.box"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
   config.vm.host_name = "intershop72"
 
   # Forward Oracle port
-  config.vm.forward_port 1522, 1521
+  config.vm.forward_port 1522, 1522
+  config.vm.forward_port 8000, 8000
+  config.vm.forward_port 8443, 8443
 
   # Provider-specific configuration so you can fine-tune various backing
   # providers for Vagrant. These expose provider-specific options.
