@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<servers>
-  <server hostname="localhost" id="Intershop Suite Server at localhost" name="Intershop Suite Server at localhost" runtime-id="Intershop Suite Server" server-type="com.intershop.enfinity.studio.emf.server.tomcat.EnfinityTomcat" server-type-id="com.intershop.enfinity.studio.emf.server.tomcat.EnfinityTomcat" start-timeout="240" stop-timeout="240" timestamp="0"/>
-</servers>

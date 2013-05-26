@@ -1,1 +1,0 @@
-com.intershop.smcc.warehouse.orm.pipelet.GetStockPO

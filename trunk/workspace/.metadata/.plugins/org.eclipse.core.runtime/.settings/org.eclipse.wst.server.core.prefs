@@ -1,2 +1,0 @@
-eclipse.preferences.version=1
-runtimes=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\n<runtimes>\n  <runtime id\="Intershop Suite Server" name\="Intershop Suite Server" runtime-type-id\="com.intershop.enfinity.studio.emf.server.tomcat.EnfinityTomcatRuntime" timestamp\="0"/>\n</runtimes>\n
