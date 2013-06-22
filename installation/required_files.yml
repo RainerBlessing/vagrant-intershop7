@@ -1,0 +1,7 @@
+- iso/*.iso
+- modules/intershop/files/license.xml
+- modules/intershop/files/ojdbc6.jar
+- modules/intershop/files/ucp.jar
+- modules/intershop/files/deb/libapr1_1.4.6-3_amd64.deb
+- modules/intershop/files/deb/libaprutil1_1.4.1-3_amd64.deb
+- modules/intershop/files/deb/libaprutil1-dbd-odbc_1.4.1-3_amd64.deb

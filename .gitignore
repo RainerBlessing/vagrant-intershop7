@@ -1,7 +1,8 @@
 .vagrant
 *.swp
-modules/intershop/files/deb/*.deb
-modules/intershop/files/*.jar
-modules/intershop/files/license.xml
-modules/intershop/files/deb/optional/*.deb
-modules/oracle/files/*.zip
+installation/modules/intershop/files/deb/*.deb
+installation/modules/intershop/files/*.jar
+installation/modules/intershop/files/license.xml
+installation/modules/intershop/files/deb/optional/*.deb
+installation/modules/oracle/files/*.zip
+installation/iso/*.iso

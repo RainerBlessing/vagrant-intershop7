@@ -281,7 +281,7 @@ class intershop::postinstall {
     "postinstall.pl":
       require => [Package["intershop-base"],File["${is_etc}/postinstall.properties.vm"],File["${is_share}/system/config/servers/127.0.1.1/ES1"]],
       command => "${is_home}/bin/postinstall.pl ${is_etc}/postinstall.properties.vm",
-      creates => "/var/opt/intershop/eserver1/log/postinstall.log",
+      #creates => "/var/opt/intershop/eserver1/log/postinstall.log",
   }
 
   exec{
@@ -306,4 +306,5 @@ class intershop::postinstall {
       command => "/vagrant/modules/intershop/files/rights.sh",
       unless => "/usr/bin/test $(stat -c %a src) -eq 770",
   }
+
 }
