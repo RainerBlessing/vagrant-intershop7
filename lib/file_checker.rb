@@ -5,8 +5,8 @@ class FileChecker
     @root = root
     required_files = YAML.load_file(File.join(@root,'required_files.yml'))
     @file_paths = required_files
-
   end
+
   def ok?(file_paths=@file_paths)
     status = false
     missing_files = []
@@ -33,5 +33,29 @@ class FileChecker
 
   def contains_wildcard file_path
     (/\*/ =~ file_path) != nil
+  end
+
+  def available? filenames
+    filenames.each do |filename|
+      if which(filename).nil?
+        puts "Command '#{filename}' is missing."
+        return false
+      end
+    end
+    return true
+  end
+
+  # Cross-platform way of finding an executable in the $PATH.
+  #
+  #   which('ruby') #=> /usr/bin/ruby
+  def which(cmd)
+    exts = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
+    ENV['PATH'].split(File::PATH_SEPARATOR).each do |path|
+      exts.each { |ext|
+        exe = File.join(path, "#{cmd}#{ext}")
+        return exe if File.executable? exe
+      }
+    end
+    return nil
   end
 end
