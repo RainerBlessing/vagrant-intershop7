@@ -2,30 +2,39 @@ $:<< File.join(File.dirname(__FILE__), 'lib')
 require 'file_checker'
 require 'iso_mounter'
 require 'package_converter'
+require 'puppet_package_creator'
+
+@root = File.join(File.dirname(__FILE__), 'installation')
 
 task :default => [:create_debs] do
     puts "Done!"
 end
 
 task :check_files do
-  fc = FileChecker.new(File.join(File.dirname(__FILE__), 'installation'))
+  fc = FileChecker.new(File.join(@root))
   raise 'Files are missing' unless fc.ok?
   raise 'Tools are missing' unless fc.available? %w[ fakeroot alien fuseiso ]
 end
 
 task :mount_iso do
-   ih = ISOMounter.new(File.join(File.dirname(__FILE__), 'installation'))
+   ih = ISOMounter.new(@root)
    ih.mount('iso/i72_linux.iso')
 end
 
 task :unmount_iso do
-   ih = ISOMounter.new(File.join(File.dirname(__FILE__), 'installation'))
+   ih = ISOMounter.new(@root)
    ih.unmount
 end
 
 task :create_debs => [ :check_files, :mount_iso ] do
-   pc = PackageConverter.new(File.join(File.dirname(__FILE__), 'installation'))
+   pc = PackageConverter.new(@root)
    pc.create_debs("mount/setup/server/ES1","packages")
    pc.create_debs("mount/setup/server/ES1/optional","packages/optional")
    Rake::Task["unmount_iso"].execute
+end
+
+task :update_package_section => [ :create_debs ] do
+    @ppc = PuppetPackageCreator.new(@root,'[User["isas1"],User["iswa1"],Package[$apt_get]]')
+    package_sections = @ppc.create('packages')
+    puts package_sections
 end
