@@ -21,7 +21,7 @@ class PuppetPackageCreator
     File.read(full_manifest_path).gsub('INTERSHOP_PACKAGES',package_sections)
   end
 
-  def write(manifest_path,manifest)
+  def write(manifest,manifest_path='modules/intershop/manifests/init.pp')
     full_manifest_path =File.join(@root,manifest_path)
     manifest_file = File.new(full_manifest_path,'w')
     manifest_file.write(manifest)

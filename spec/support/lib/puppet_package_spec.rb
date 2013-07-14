@@ -31,8 +31,7 @@ describe "PuppetPackage" do
 
   it "saves the manifest" do
     time = Time.now.getutc
-    manifest_path = 'modules/intershop/manifests/init.pp'
-    @ppc.write(manifest_path,time)
+    @ppc.write(time)
     expect(File.read(File.join(root,manifest_path))).to eq(time.to_s)
   end
 

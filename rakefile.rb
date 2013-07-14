@@ -36,5 +36,7 @@ end
 task :update_package_section => [ :create_debs ] do
     @ppc = PuppetPackageCreator.new(@root,'[User["isas1"],User["iswa1"],Package[$apt_get]]')
     package_sections = @ppc.create('packages')
-    puts package_sections
+    manifest_with_package_sections = @ppc.insert('modules/intershop/manifests/init.pp.tmp',package_sections.map{|p| p.to_s}.join("\n"))
+
+    @ppc.write(manifest_with_package_sections)
 end

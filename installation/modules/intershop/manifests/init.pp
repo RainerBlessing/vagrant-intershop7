@@ -38,7 +38,6 @@ class intershop::user {
 }
 class intershop::base {
 
-  #$apt_get = ["libaprutil1-dbd-odbc","libssl0.9.8","libasound2","libxi6","libxrender1","libxtst6","libc6-i386"]
   $apt_get = ["libssl0.9.8","libasound2","libxi6","libxrender1","libxtst6","libc6-i386"]
   package {
     $apt_get:
@@ -48,6 +47,7 @@ class intershop::base {
 
   $intershop_version="7.2.1.0-137"
   $package_dir="/tmp/vagrant-puppet/modules-0/intershop/files/deb"
+
 package {
   "intershop-es1-sfs-ac-ruleengine-drools-share":
     require => [User["isas1"],User["iswa1"],Package[$apt_get]],
@@ -937,6 +937,10 @@ package {
     ensure => present,
     source => "intershop-es1-sfs-sld-ch-partner-plugin-share_7.2.1.0-137_amd64.deb";
 }
+
+}
+
+class intershop::duplicates{
   $dpkg_force_overwrite = "/usr/bin/dpkg -i --force-confdef --force-overwrite"
 
   #exec can not handle arrays, fixed in puppet 3.2.0
@@ -945,28 +949,28 @@ package {
   #  "${dpkg_force_overwrite} ${package_dir}/intershop-es1-sfs-orm-share_${intershop_version}_amd64.deb",
   #  "${dpkg_force_overwrite} ${package_dir}/intershop-es1-sfs-core-share_${intershop_version}_amd64.deb",
   #]
-#
-#  exec{
-#     "install_packages_with_duplicates_1":
-#       require => Package["intershop-base"],
-#       unless => "/usr/bin/test -f /var/opt/intershop/eserver1/log/postinstall.log",
-#       command => "${dpkg_force_overwrite} ${package_dir}/intershop-es1-sfs-bc-marketing-share_${intershop_version}_amd64.deb";
-#  }
-#  exec{
-#     "install_packages_with_duplicates_2":
-#       require => Exec["install_packages_with_duplicates_1"],
-#       unless => "/usr/bin/test -f /var/opt/intershop/eserver1/log/postinstall.log",
-#       command => "${dpkg_force_overwrite} ${package_dir}/intershop-es1-sfs-orm-share_${intershop_version}_amd64.deb";
-#  }
-#  exec{
-#     "install_packages_with_duplicates_3":
-#       require => Exec["install_packages_with_duplicates_2"],
-#       unless => "/usr/bin/test -f /var/opt/intershop/eserver1/log/postinstall.log",
-#       command => "${dpkg_force_overwrite} ${package_dir}/intershop-es1-sfs-core-share_${intershop_version}_amd64.deb";
-#  }
+
+ exec{
+    "install_packages_with_duplicates_1":
+      require => Package["intershop-base"],
+      unless => "/usr/bin/test -f /var/opt/intershop/eserver1/log/postinstall.log",
+      command => "${dpkg_force_overwrite} ${package_dir}/intershop-es1-sfs-bc-marketing-share_${intershop_version}_amd64.deb";
+ }
+ exec{
+    "install_packages_with_duplicates_2":
+      require => Exec["install_packages_with_duplicates_1"],
+      unless => "/usr/bin/test -f /var/opt/intershop/eserver1/log/postinstall.log",
+      command => "${dpkg_force_overwrite} ${package_dir}/intershop-es1-sfs-orm-share_${intershop_version}_amd64.deb";
+ }
+ exec{
+    "install_packages_with_duplicates_3":
+      require => Exec["install_packages_with_duplicates_2"],
+      unless => "/usr/bin/test -f /var/opt/intershop/eserver1/log/postinstall.log",
+      command => "${dpkg_force_overwrite} ${package_dir}/intershop-es1-sfs-core-share_${intershop_version}_amd64.deb";
+ }
+
 
 }
-
 class intershop::optional {
 
   $intershop_version="7.2.1.0-137"
