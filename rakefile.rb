@@ -3,6 +3,7 @@ require 'file_checker'
 require 'iso_mounter'
 require 'package_converter'
 require 'puppet_package_creator'
+require 'packages_sections'
 
 @root = File.join(File.dirname(__FILE__), 'installation')
 
@@ -34,9 +35,17 @@ task :create_debs => [ :check_files, :mount_iso ] do
 end
 
 task :update_package_section => [ :create_debs ] do
-    @ppc = PuppetPackageCreator.new(@root,'[User["isas1"],User["iswa1"],Package[$apt_get]]')
-    package_sections = @ppc.create('packages')
-    manifest_with_package_sections = @ppc.insert('modules/intershop/manifests/init.pp.tmp',package_sections.map{|p| p.to_s}.join("\n"))
+    @ppc = PuppetPackageCreator.new(@root)
+
+    base_package_sections = @ppc.create('packages','/intershop/files/deb/','[User["isas1"],User["iswa1"],Package[$apt_get]]')
+    optional_package_sections = @ppc.create('packages/optional','/intershop/files/deb/optional','[Class["intershop::base"]]','sfs')
+
+    packages_sections = [
+      PackagesSections.new('INTERSHOP_PACKAGES',base_package_sections),
+      PackagesSections.new('INTERSHOP_OPTIONAL_PACKAGES',optional_package_sections)
+    ]
+    
+    manifest_with_package_sections = @ppc.insert('modules/intershop/manifests/init.pp.tmp',packages_sections)
 
     @ppc.write(manifest_with_package_sections)
 end

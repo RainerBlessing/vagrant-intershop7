@@ -85,21 +85,8 @@ class intershop::optional {
   $intershop_version="7.2.1.0-137"
   $package_dir="/tmp/vagrant-puppet/modules-0/intershop/files/deb/optional"
 
-#  $intershop_optional_source = [
-#  #"${package_dir}/intershop-es1-doc-etest-doc_${intershop_version}_amd64.deb",
-#   # "${package_dir}/intershop-es1-sfs-etest-share_${intershop_version}_amd64.deb",
-#    "${package_dir}/intershop-es1-demo-ucm-demo-share_${intershop_version}_amd64.deb",
-#    "${package_dir}/intershop-es1-demo-ucm-demo-solr-share_${intershop_version}_amd64.deb",
-#    "${package_dir}/intershop-es1-demo-ucm-misc-sfs-demo_${intershop_version}_amd64.deb",
-#  ]
-#
-#  package {
-#    "intershop-optional":
-#       require => Class['intershop::base'],
-#       provider => "dpkg",
-#       ensure => "present",
-#       source => $intershop_optional_source;
-#  }
+INTERSHOP_OPTIONAL_PACKAGES
+
 }
 
 class intershop::postinstall {  
