@@ -10,7 +10,7 @@ class PuppetPackageCreator
     packages = []
     
     Dir.glob(create_file_pattern(directory, filter)).each do |deb_file|
-      unless !negative_filter.nil? && deb_file.match(/#{negative_filter}/).size==1
+      unless !negative_filter.nil? && !deb_file.match(/#{negative_filter}/).nil?
         packages << PuppetPackage.new(deb_file, relative_source_dir, require_string)
       end
     end

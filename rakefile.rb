@@ -38,7 +38,7 @@ task :update_package_section => [ :create_debs ] do
     @ppc = PuppetPackageCreator.new(@root)
 
     base_package_sections = @ppc.create('packages','/intershop/files/deb/','[User["isas1"],User["iswa1"],Package[$apt_get]]')
-    optional_package_sections = @ppc.create('packages/optional','/intershop/files/deb/optional','[Class["intershop::base"]]','sfs')
+    optional_package_sections = @ppc.create('packages/optional','/intershop/files/deb/optional','[Class["intershop::base"]]','sfs','demo')
 
     packages_sections = [
       PackagesSections.new('INTERSHOP_PACKAGES',base_package_sections),

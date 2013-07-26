@@ -988,13 +988,6 @@ package {
     source => "/tmp/vagrant-puppet/modules-0/intershop/files/deb/optional/intershop-es1-sfs-bc-product-test-share_7.2.1.0-137_amd64.deb";
 }
 package {
-  "intershop-es1-demo-ucm-misc-sfs-demo":
-    require => [Class["intershop::base"]],
-    provider => "dpkg",
-    ensure => present,
-    source => "/tmp/vagrant-puppet/modules-0/intershop/files/deb/optional/intershop-es1-demo-ucm-misc-sfs-demo_7.2.1.0-137_amd64.deb";
-}
-package {
   "intershop-es1-sfs-sld-preview-test-share":
     require => [Class["intershop::base"]],
     provider => "dpkg",
